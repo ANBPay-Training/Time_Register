@@ -1,44 +1,36 @@
+// SharedPreferences er et lagringssystem, der gemmer data som nøgle–værdi-par
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/work_day_model.dart';
+
 class WorkDayStorage {
-  static Future<void> saveWorkData({
-    required String userId,
-    required DateTime? start,
-    required DateTime? end,
-    required DateTime? breakStart,
-    required Duration breakDuration,
-  }) async {
-    final prefs = await SharedPreferences.getInstance();
+  static Future<SharedPreferences> get _prefs async =>
+      await SharedPreferences.getInstance();
 
-    await prefs.setString(
-      "${userId}_startWork",
-      start?.toIso8601String() ?? "",
-    );
-    await prefs.setString("${userId}_endWork", end?.toIso8601String() ?? "");
-    await prefs.setString(
-      "${userId}_breakStart",
-      breakStart?.toIso8601String() ?? "",
-    );
-    await prefs.setInt("${userId}_totalBreak", breakDuration.inSeconds);
+  static Future<void> saveWorkDataStorge(String userId, WorkDayModel m) async {
+    final p = await _prefs;
+
+    p.setString("${userId}_start", m.startWork?.toIso8601String() ?? "");
+    p.setString("${userId}_end", m.endWork?.toIso8601String() ?? "");
+    p.setString("${userId}_breakStart", m.breakStart?.toIso8601String() ?? "");
+    p.setInt("${userId}_breakTotal", m.totalBreak.inSeconds);
   }
 
-  static Future<Map<String, dynamic>> loadWorkData(String userId) async {
-    final prefs = await SharedPreferences.getInstance();
+  static Future<void> loadWorkDataStorge(String userId, WorkDayModel m) async {
+    final p = await _prefs;
 
-    String start = prefs.getString("${userId}_startWork") ?? "";
-    String end = prefs.getString("${userId}_endWork") ?? "";
-    String breakStart = prefs.getString("${userId}_breakStart") ?? "";
-    int breakSec = prefs.getInt("${userId}_totalBreak") ?? 0;
+    final start = p.getString("${userId}_start") ?? "";
+    final end = p.getString("${userId}_end") ?? "";
+    final breakS = p.getString("${userId}_breakStart") ?? "";
+    final breakT = p.getInt("${userId}_breakTotal") ?? 0;
 
-    return {
-      "startWork": start.isNotEmpty ? DateTime.parse(start) : null,
-      "endWork": end.isNotEmpty ? DateTime.parse(end) : null,
-      "breakStart": breakStart.isNotEmpty ? DateTime.parse(breakStart) : null,
-      "totalBreak": Duration(seconds: breakSec),
-    };
+    m.startWork = start.isNotEmpty ? DateTime.parse(start) : null;
+    m.endWork = end.isNotEmpty ? DateTime.parse(end) : null;
+    m.breakStart = breakS.isNotEmpty ? DateTime.parse(breakS) : null;
+    m.totalBreak = Duration(seconds: breakT);
   }
 
-  static Future<void> clearUser(String userId) async {
+  static Future<void> clearUserStorage(String userId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove("${userId}_startWork");
     await prefs.remove("${userId}_endWork");

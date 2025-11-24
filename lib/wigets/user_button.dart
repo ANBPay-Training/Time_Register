@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:time_register_flutter/models/user_model.dart';
-
 import '../screens/pin_page.dart';
 
 class UserButton extends StatelessWidget {
@@ -13,11 +12,14 @@ class UserButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => PinPage(user: user, branchname: branchName),
-          ),
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          // med en halvgennemsigtig baggrund
+          barrierColor: Colors.black.withOpacity(0.5),
+          builder: (context) {
+            return PinPage(user: user, branchname: branchName);
+          },
         );
       },
       child: Container(

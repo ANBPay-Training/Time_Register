@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:time_register_flutter/wigets/branch_card.dart';
-import '../models/user_model.dart';
+import '../wigets/branch_card_buttons/back_button.dart';
+import '../wigets/branch_card_buttons/continue_user_button.dart';
 import '../wigets/top_stepper.dart';
-import 'user_page.dart';
 
 class BranchPage extends StatefulWidget {
   final int currentStep;
@@ -80,71 +80,14 @@ class _BranchPageState extends State<BranchPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Row(
                 children: [
-                  _buttonBack(),
+                  BranchBackButton(),
                   const SizedBox(width: 10),
-                  _buttonContinue(),
+                  BranchContinueButton(selectedBranch: selectedBranch),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  // ---------------------
-  // BUTTONS
-  // ---------------------
-  Widget _buttonBack() {
-    return Expanded(
-      child: OutlinedButton(
-        onPressed: () => Navigator.pop(context),
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          side: const BorderSide(color: Colors.grey),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: const Text("Back", style: TextStyle(fontSize: 16)),
-      ),
-    );
-  }
-
-  Widget _buttonContinue() {
-    return Expanded(
-      child: ElevatedButton(
-        onPressed: selectedBranch == null
-            ? null
-            : () {
-                List<AppUser> selectedUsers = [];
-
-                if (selectedBranch == "City") {
-                  selectedUsers = users_city;
-                } else if (selectedBranch == "Valby") {
-                  selectedUsers = users_valby;
-                } else if (selectedBranch == "Airport") {
-                  selectedUsers = users_airport;
-                }
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => UserPage(
-                      branchName: selectedBranch!,
-                      users: selectedUsers,
-                    ),
-                  ),
-                );
-              },
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          backgroundColor: Colors.greenAccent.shade400,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: const Text("Continue", style: TextStyle(fontSize: 16)),
       ),
     );
   }

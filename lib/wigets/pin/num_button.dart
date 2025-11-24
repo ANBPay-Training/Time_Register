@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// hvordan knapperne vil ses ud
 class NumButton extends StatelessWidget {
   final String number;
   final VoidCallback onTap;
