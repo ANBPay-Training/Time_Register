@@ -25,29 +25,31 @@ class TopStepper extends StatelessWidget {
           } else {
             lineColor = Colors.grey.shade300;
           }
-          return Column(
-            children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                height: 10,
-                width: 200,
-                decoration: BoxDecoration(
-                  color: lineColor,
-                  borderRadius: BorderRadius.circular(10),
+          return Expanded(
+            child: Column(
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  height: 10,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    color: lineColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                steps[i],
-                style: TextStyle(
-                  fontSize: 13,
-                  color: i <= activeIndex ? Colors.black : Colors.grey,
-                  fontWeight: i <= activeIndex
-                      ? FontWeight.bold
-                      : FontWeight.normal,
+                const SizedBox(height: 6),
+                Text(
+                  steps[i],
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: i <= activeIndex ? Colors.black : Colors.grey,
+                    fontWeight: i <= activeIndex
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }),
       ),

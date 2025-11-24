@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:time_register_flutter/wigets/work_dag_buttons/end_work_button.dart';
+import 'package:time_register_flutter/wigets/work_dag_buttons/app_bar.dart';
 import 'package:time_register_flutter/wigets/work_dag_buttons/start_break_button.dart';
 import 'package:time_register_flutter/wigets/work_dag_buttons/start_work_button.dart';
 import 'package:time_register_flutter/wigets/work_dag_buttons/switch_branch_button.dart';
@@ -47,7 +48,8 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
         double.tryParse(c.model.totalWorkedFormatted.split(":")[0]) ?? 0;
 
     return Scaffold(
-      appBar: AppBar(title: Text("My Work Day - ${widget.userName}")),
+      appBar: MyWorkDayAppBar(userName: widget.userName),
+
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

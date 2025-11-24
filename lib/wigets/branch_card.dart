@@ -20,8 +20,10 @@ class BranchCard extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 50),
-        margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(14),
+        // For at forhindre, at indholdet bliver presset sammen
+        constraints: const BoxConstraints(minHeight: 80),
         decoration: BoxDecoration(
           color: selected ? Colors.greenAccent.shade100 : Colors.white,
           borderRadius: BorderRadius.circular(14),
@@ -40,6 +42,7 @@ class BranchCard extends StatelessWidget {
           ],
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(

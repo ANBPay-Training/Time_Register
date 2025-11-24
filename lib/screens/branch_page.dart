@@ -21,6 +21,7 @@ class _BranchPageState extends State<BranchPage> {
       backgroundColor: const Color(0xffF5F7F8),
       body: SafeArea(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TopStepper(activeIndex: widget.currentStep),
@@ -51,7 +52,7 @@ class _BranchPageState extends State<BranchPage> {
                   crossAxisCount: 2, // to kolonner
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: 3.5, // den justerer kortenes størrelse
+                  childAspectRatio: 1.8, // den justerer kortenes størrelse
                   children: [
                     BranchCard(
                       title: "Valby",
