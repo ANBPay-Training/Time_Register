@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/user_model.dart';
-import '../../screens/user_page.dart';
+import '../../screens/users_page.dart';
 
 class SwitchUserButton extends StatelessWidget {
   final String branchName;
@@ -31,7 +31,7 @@ class SwitchUserButton extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (_) =>
-                UserPage(branchName: branchName, users: selectedUsers),
+                UsersPage(branchName: branchName, users: selectedUsers),
           ),
         );
       },

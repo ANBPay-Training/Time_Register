@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:time_register_flutter/wigets/pin/num_button.dart';
 import '../models/user_model.dart';
 import '../wigets/pin/delete_button.dart';
-import '../wigets/pin_dots.dart';
+import '../wigets/pin/pin_dots.dart';
 import 'my_work_day_page.dart';
 
 class PinPage extends StatefulWidget {

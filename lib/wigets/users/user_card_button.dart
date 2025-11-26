@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:time_register_flutter/models/user_model.dart';
-import '../screens/pin_page.dart';
+import '../../screens/pin_page.dart';
 
-class UserButton extends StatelessWidget {
+class UserCardButton extends StatelessWidget {
   final AppUser user;
   final String branchName;
 
-  const UserButton({super.key, required this.user, required this.branchName});
+  const UserCardButton({
+    super.key,
+    required this.user,
+    required this.branchName,
+  });
 
   @override
   Widget build(BuildContext context) {

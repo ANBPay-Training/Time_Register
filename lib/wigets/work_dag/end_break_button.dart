@@ -15,7 +15,8 @@ class EndBreakButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
+      height: 70,
       child: ElevatedButton(
         onPressed: c.model.onBreak
             ? () async {
@@ -24,7 +25,16 @@ class EndBreakButton extends StatelessWidget {
                 onPressed();
               }
             : null,
-        child: Text("End break "),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[200],
+          disabledBackgroundColor: Colors.grey[300],
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        ),
+        child: const Text("End break"),
       ),
     );
   }

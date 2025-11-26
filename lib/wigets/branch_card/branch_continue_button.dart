@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../models/user_model.dart';
-import '../../screens/user_page.dart';
+import '../../screens/users_page.dart';
 
 class BranchContinueButton extends StatelessWidget {
   final String? selectedBranch;
 
-  const BranchContinueButton({super.key, required this.selectedBranch});
+  BranchContinueButton({super.key, required this.selectedBranch});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BranchContinueButton extends StatelessWidget {
             ? null
             : () {
                 List<AppUser> selectedUsers = [];
-
+                // Find users, der hører til hver branch
                 if (selectedBranch == "City") {
                   selectedUsers = users_city;
                 } else if (selectedBranch == "Valby") {
@@ -24,10 +24,11 @@ class BranchContinueButton extends StatelessWidget {
                 } else if (selectedBranch == "Airport") {
                   selectedUsers = users_airport;
                 }
+                // Navigate to UsersPage
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => UserPage(
+                    builder: (_) => UsersPage(
                       branchName: selectedBranch!,
                       users: selectedUsers,
                     ),

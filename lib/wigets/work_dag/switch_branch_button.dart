@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../screens/branch_page.dart';
+import '../../screens/branches_page.dart';
 
 class SwitchBranchButton extends StatelessWidget {
   const SwitchBranchButton({super.key});

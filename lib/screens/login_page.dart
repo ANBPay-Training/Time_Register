@@ -1,17 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:time_register_flutter/wigets/log_in/email_text_field.dart';
+import 'package:time_register_flutter/wigets/log_in/log_in_countinue_button.dart';
 import 'package:time_register_flutter/wigets/top_stepper.dart';
-import 'branch_page.dart';
+
+import '../wigets/log_in/labeled_field.dart';
+import '../wigets/log_in/password_text_field.dart';
 
 class AccountLoginPage extends StatefulWidget {
-  const AccountLoginPage({super.key});
+  AccountLoginPage({super.key});
 
   @override
   State<AccountLoginPage> createState() => _AccountLoginPageState();
 }
 
 class _AccountLoginPageState extends State<AccountLoginPage> {
-  final email = TextEditingController();
-  final pass = TextEditingController();
+  late final TextEditingController email;
+  late final TextEditingController pass;
+
+  @override
+  void initState() {
+    super.initState();
+    email = TextEditingController();
+    pass = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    email.dispose();
+    pass.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +39,6 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --------------------------
-            //   TOP STEPPER (Account active)
-            // --------------------------
             TopStepper(activeIndex: 0),
 
             const SizedBox(height: 30),
@@ -60,97 +75,20 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
 
                       const SizedBox(height: 25),
 
-                      // ---------------------
-                      // Email
-                      // ---------------------
-                      const Text(
-                        "Email",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: email,
-                        decoration: InputDecoration(
-                          hintText: "you@company.com",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          // Kant ved fokus (når brugeren skriver i feltet)
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.greenAccent,
-                            ),
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                        ),
+                      LabeledField(
+                        label: "Email",
+                        child: EmailTextField(email: email),
                       ),
 
                       const SizedBox(height: 20),
 
-                      // ---------------------
-                      // Password
-                      // ---------------------
-                      const Text(
-                        "Password",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                        ),
+                      LabeledField(
+                        label: "Password",
+                        child: PasswordTextField(pass: pass),
                       ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: pass,
-                        obscureText: true, // skjuler pin-code
-                        decoration: InputDecoration(
-                          hintText: "•••••••",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.greenAccent,
-                            ),
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                        ),
-                      ),
-
                       const SizedBox(height: 25),
 
-                      // ---------------------
-                      // Continue Button
-                      // ---------------------
-                      SizedBox(
-                        width: 150,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const BranchPage(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.greenAccent.shade400,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 14,
-                              horizontal: 20,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: const Text(
-                            "Continue",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ),
+                      SizedBox(width: 150, child: LogInCountinue(email, pass)),
                     ],
                   ),
                 ),

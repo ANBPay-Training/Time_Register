@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:time_register_flutter/wigets/branch_card.dart';
-import '../wigets/branch_card_buttons/back_button.dart';
-import '../wigets/branch_card_buttons/continue_user_button.dart';
+import 'package:time_register_flutter/wigets/branch_card/branch_card.dart';
+import '../wigets/app_back_button.dart';
+import '../wigets/branch_card/branch_continue_button.dart';
 import '../wigets/top_stepper.dart';
 
 class BranchPage extends StatefulWidget {
@@ -14,6 +14,14 @@ class BranchPage extends StatefulWidget {
 
 class _BranchPageState extends State<BranchPage> {
   String? selectedBranch;
+
+  late final screenWidth = MediaQuery.of(context).size.width;
+
+  // Bestem antal kolonner baseret på skærmbredden
+  late int crossAxisCount = screenWidth > 600 ? 3 : 2;
+
+  // Bestem forholdet mellem kortets bredde og højde
+  late double childAspectRatio = screenWidth > 600 ? 2.0 : 1.8;
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +56,13 @@ class _BranchPageState extends State<BranchPage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
+
                 child: GridView.count(
-                  crossAxisCount: 2, // to kolonner
+                  crossAxisCount: crossAxisCount, // antal af passende kolonner
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: 1.8, // den justerer kortenes størrelse
+                  childAspectRatio:
+                      childAspectRatio, // den justerer kortenes størrelse
                   children: [
                     BranchCard(
                       title: "Valby",
@@ -81,7 +91,7 @@ class _BranchPageState extends State<BranchPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Row(
                 children: [
-                  BranchBackButton(),
+                  Expanded(child: AppBackButton()),
                   const SizedBox(width: 10),
                   BranchContinueButton(selectedBranch: selectedBranch),
                 ],

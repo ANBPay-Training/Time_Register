@@ -15,9 +15,11 @@ class EndWorkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    final bool ended = c.model.endWork != null;
+
+    return SizedBox(
+      height: 70,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.red[200]),
         onPressed: c.canEndWork
             ? () async {
                 c.endWork();
@@ -25,10 +27,17 @@ class EndWorkButton extends StatelessWidget {
                 onPressed();
               }
             : null,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ended ? Colors.red[200] : Colors.red[100],
+          disabledBackgroundColor: Colors.red[50],
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        ),
         child: Text(
-          c.model.endWork == null
-              ? "End work"
-              : "Ended: ${c.formatTime(c.model.endWork)}",
+          ended ? "Ended: ${c.formatTime(c.model.endWork)}" : "End work",
         ),
       ),
     );

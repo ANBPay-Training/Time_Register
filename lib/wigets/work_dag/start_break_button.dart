@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:time_register_flutter/controllers/work_day_controller.dart';
+import '../../controllers/work_day_controller.dart';
 
 class StartBreakButton extends StatelessWidget {
   final String userId;
@@ -15,7 +15,10 @@ class StartBreakButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    final bool started = c.model.breakStart != null;
+
+    return SizedBox(
+      height: 70,
       child: ElevatedButton(
         onPressed: c.canStartBreak
             ? () async {
@@ -24,10 +27,19 @@ class StartBreakButton extends StatelessWidget {
                 onPressed();
               }
             : null,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[200],
+          disabledBackgroundColor: Colors.grey[300],
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        ),
         child: Text(
-          c.model.breakStart == null
-              ? "Start break"
-              : "Start break: ${c.formatTime(c.model.breakStart)}",
+          started
+              ? "Start break: ${c.formatTime(c.model.breakStart)}"
+              : "Start break",
         ),
       ),
     );

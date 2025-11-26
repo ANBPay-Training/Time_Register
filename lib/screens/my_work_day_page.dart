@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'package:time_register_flutter/wigets/work_dag_buttons/end_work_button.dart';
-import 'package:time_register_flutter/wigets/work_dag_buttons/app_bar.dart';
-import 'package:time_register_flutter/wigets/work_dag_buttons/start_break_button.dart';
-import 'package:time_register_flutter/wigets/work_dag_buttons/start_work_button.dart';
-import 'package:time_register_flutter/wigets/work_dag_buttons/switch_branch_button.dart';
-import 'package:time_register_flutter/wigets/stat_column.dart';
+import 'package:time_register_flutter/wigets/work_dag/stat_column.dart';
 import '../controllers/work_day_controller.dart';
 import '../models/work_day_model.dart';
-import '../wigets/work_dag_buttons/switch_users_page_button.dart';
-import '../wigets/work_dag_buttons/end_break_button.dart';
+import '../wigets/work_dag/app_bar.dart';
+import '../wigets/work_dag/end_break_button.dart';
+import '../wigets/work_dag/end_work_button.dart';
+import '../wigets/work_dag/start_break_button.dart';
+import '../wigets/work_dag/start_work_button.dart';
+import '../wigets/work_dag/stat_box.dart';
+import '../wigets/work_dag/switch_branch_button.dart';
+import '../wigets/work_dag/switch_users_page_button.dart';
 
 class MyWorkDayPage extends StatefulWidget {
   final String userId;
@@ -58,16 +59,20 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
             // Start / End buttons
             Row(
               children: [
-                StartWorkButton(
-                  c: c,
-                  userId: widget.userId,
-                  onPressed: () => setState(() {}),
+                Expanded(
+                  child: StartWorkButton(
+                    c: c,
+                    userId: widget.userId,
+                    onPressed: () => setState(() {}),
+                  ),
                 ),
                 SizedBox(width: 10),
-                EndWorkButton(
-                  userId: widget.userId,
-                  c: c,
-                  onPressed: () => setState(() {}),
+                Expanded(
+                  child: EndWorkButton(
+                    userId: widget.userId,
+                    c: c,
+                    onPressed: () => setState(() {}),
+                  ),
                 ),
               ],
             ),
@@ -75,16 +80,20 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
             // Break buttons
             Row(
               children: [
-                StartBreakButton(
-                  userId: widget.userId,
-                  c: c,
-                  onPressed: () => setState(() {}),
+                Expanded(
+                  child: StartBreakButton(
+                    userId: widget.userId,
+                    c: c,
+                    onPressed: () => setState(() {}),
+                  ),
                 ),
                 SizedBox(width: 10),
-                EndBreakButton(
-                  c: c,
-                  userId: widget.userId,
-                  onPressed: () => setState(() {}),
+                Expanded(
+                  child: EndBreakButton(
+                    c: c,
+                    userId: widget.userId,
+                    onPressed: () => setState(() {}),
+                  ),
                 ),
               ],
             ),
@@ -98,17 +107,23 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                StatColumn(
-                  title: 'Started',
-                  value: c.formatTime(c.model.startWork),
+                StatBox(
+                  child: StatColumn(
+                    title: 'Started',
+                    value: c.formatTime(c.model.startWork),
+                  ),
                 ),
-                StatColumn(
-                  title: 'Total break',
-                  value: c.model.totalBreakFormatted,
+                StatBox(
+                  child: StatColumn(
+                    title: 'Total break',
+                    value: c.model.totalBreakFormatted,
+                  ),
                 ),
-                StatColumn(
-                  title: 'Worked',
-                  value: c.model.totalWorkedFormatted,
+                StatBox(
+                  child: StatColumn(
+                    title: 'Worked',
+                    value: c.model.totalWorkedFormatted,
+                  ),
                 ),
               ],
             ),

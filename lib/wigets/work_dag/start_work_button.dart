@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../controllers/work_day_controller.dart';
 
 class StartWorkButton extends StatelessWidget {
@@ -16,18 +15,28 @@ class StartWorkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    final bool isStarted = c.model.startWork != null;
+
+    return SizedBox(
+      height: 70,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.green[200]),
         onPressed: () async {
           c.startWork();
           await c.save(userId);
           onPressed();
         },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isStarted ? Colors.green[200] : Colors.green[100],
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        ),
         child: Text(
-          c.model.startWork == null
-              ? "Start work"
-              : "Started: ${c.formatTime(c.model.startWork)}",
+          isStarted
+              ? "Started: ${c.formatTime(c.model.startWork)}"
+              : "Start work",
         ),
       ),
     );

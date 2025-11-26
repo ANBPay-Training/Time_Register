@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:time_register_flutter/models/user_model.dart';
+import '../wigets/app_back_button.dart';
 import '../wigets/top_stepper.dart';
-import '../wigets/user_button.dart';
-import 'pin_page.dart';
+import '../wigets/users/user_card_button.dart';
 
-class UserPage extends StatelessWidget {
+class UsersPage extends StatelessWidget {
   final String branchName;
 
   final List<AppUser> users;
 
-  const UserPage({super.key, required this.branchName, required this.users});
+  const UsersPage({super.key, required this.branchName, required this.users});
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final crossAxisCount = screenWidth > 600 ? 3 : 2;
+    final childAspectRatio = screenWidth > 600 ? 1.9 : 1.6;
+
     return Scaffold(
       backgroundColor: const Color(0xffF5F7F8),
       body: SafeArea(
@@ -26,7 +30,6 @@ class UserPage extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Container(
-                  width: 450,
                   padding: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -58,46 +61,25 @@ class UserPage extends StatelessWidget {
 
                       // ------- USER LIST -------
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: users.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                UserButton(
-                                  user: users[index],
-                                  branchName: branchName,
-                                ),
-                                const SizedBox(height: 15),
-                              ],
-                            );
-                          },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: GridView.count(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: childAspectRatio,
+                            children: users.map((user) {
+                              return UserCardButton(
+                                user: user,
+                                branchName: branchName,
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
 
                       // ------- BACK BUTTON -------
-                      SizedBox(
-                        width: 120,
-                        child: OutlinedButton(
-                          onPressed: () => Navigator.pop(context),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 14,
-                              horizontal: 20,
-                            ),
-                            side: BorderSide(color: Colors.grey.shade400),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                          ),
-                          child: const Text(
-                            "Back",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ),
-                      ),
+                      SizedBox(width: 120, child: AppBackButton()),
                     ],
                   ),
                 ),

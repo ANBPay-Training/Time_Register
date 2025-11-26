@@ -14,7 +14,7 @@ class MyWorkDayAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Titel til venstre
-          Text("My Work Day - ${userName}", style: TextStyle(fontSize: 18)),
+          Text(" $userName's Work Day - ", style: TextStyle(fontSize: 18)),
           // Dato og tid til højre
           Column(
             mainAxisSize: MainAxisSize.min,
