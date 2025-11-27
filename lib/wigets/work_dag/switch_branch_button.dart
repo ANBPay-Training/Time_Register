@@ -10,10 +10,7 @@ class SwitchBranchButton extends StatelessWidget {
     return TextButton(
       child: Text("Switch branch"),
       onPressed: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => BranchPage()),
-        );
+        Navigator.pushReplacementNamed(context, '/branches');
       },
     );
   }

@@ -30,17 +30,35 @@ class MyWorkDayPage extends StatefulWidget {
 
 class _MyWorkDayPageState extends State<MyWorkDayPage> {
   late WorkDayController c;
+  bool isLoading = true; // Tilføjelse af state for loading
+  String? errorMessage; // Tilføjelse af state for fejl
 
   @override
   void initState() {
     super.initState();
     c = WorkDayController(WorkDayModel());
-    loadData();
+    _loadData();
   }
 
-  Future<void> loadData() async {
-    await c.load(widget.userId);
-    setState(() {});
+  Future<void> _loadData() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = null;
+    });
+
+    try {
+      await c.load(widget.userId);
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+          errorMessage = e.toString();
+        });
+      }
+    }
   }
 
   @override
@@ -146,7 +164,7 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SwitchUserButton(context, branchName: widget.branchName),
+                SwitchUserButton(branchName: widget.branchName),
                 SwitchBranchButton(),
               ],
             ),

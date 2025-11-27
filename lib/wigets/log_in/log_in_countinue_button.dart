@@ -15,10 +15,7 @@ class LogInCountinue extends StatelessWidget {
         final inputPass = pass.text.trim();
         // videre til næste side, hvis email og adgangskode er korrekte
         if (inputEmail == "you@company.com" && inputPass.length == 7) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const BranchPage()),
-          );
+          Navigator.pushReplacementNamed(context, '/branches');
         } else {
           // Fejlmeddelelse
           ScaffoldMessenger.of(context).showSnackBar(

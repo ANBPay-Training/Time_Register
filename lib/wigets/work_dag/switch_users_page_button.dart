@@ -6,26 +6,20 @@ import '../../screens/users_page.dart';
 class SwitchUserButton extends StatelessWidget {
   final String branchName;
 
-  const SwitchUserButton(
-    BuildContext context, {
-    super.key,
-    required this.branchName,
-  });
+  const SwitchUserButton({super.key, required this.branchName});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: Text("Switch user"),
+      child: const Text("Switch user"),
       onPressed: () {
-        List<AppUser> selectedUsers = [];
+        final branchUsers = {
+          "City": users_city,
+          "Valby": users_valby,
+          "Airport": users_airport,
+        };
 
-        if (branchName == "City") {
-          selectedUsers = users_city;
-        } else if (branchName == "Valby") {
-          selectedUsers = users_valby;
-        } else if (branchName == "Airport") {
-          selectedUsers = users_airport;
-        }
+        final selectedUsers = branchUsers[branchName] ?? [];
 
         Navigator.push(
           context,
