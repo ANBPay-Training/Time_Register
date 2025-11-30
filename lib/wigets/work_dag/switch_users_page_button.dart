@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../models/user_model.dart';
-import '../../screens/users_page.dart';
 
 class SwitchUserButton extends StatelessWidget {
   final String branchName;
@@ -21,12 +20,10 @@ class SwitchUserButton extends StatelessWidget {
 
         final selectedUsers = branchUsers[branchName] ?? [];
 
-        Navigator.push(
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (_) =>
-                UsersPage(branchName: branchName, users: selectedUsers),
-          ),
+          '/users',
+          arguments: {"branchName": branchName, "users": selectedUsers},
         );
       },
     );

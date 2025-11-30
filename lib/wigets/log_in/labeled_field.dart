@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class LabeledField extends StatelessWidget {
-  late final String label;
-  late final Widget child;
+  final String label;
+  final Widget child;
 
-  LabeledField({required this.label, required this.child});
+  const LabeledField({super.key, required this.label, required this.child});
 
   @override
   Widget build(BuildContext context) {

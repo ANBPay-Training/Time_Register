@@ -7,7 +7,7 @@ import '../wigets/log_in/labeled_field.dart';
 import '../wigets/log_in/password_text_field.dart';
 
 class AccountLoginPage extends StatefulWidget {
-  AccountLoginPage({super.key});
+  const AccountLoginPage({super.key});
 
   @override
   State<AccountLoginPage> createState() => _AccountLoginPageState();

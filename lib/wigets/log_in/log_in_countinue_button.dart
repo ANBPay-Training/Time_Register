@@ -13,8 +13,8 @@ class LogInCountinue extends StatelessWidget {
       onPressed: () {
         final inputEmail = email.text.trim();
         final inputPass = pass.text.trim();
-        // videre til næste side, hvis email og adgangskode er korrekte
-        if (inputEmail == "you@company.com" && inputPass.length == 7) {
+        // videre til næste side, hvis email you@company.com og adgangskode er korrekte
+        if (inputEmail == "1" && inputPass.length == 1) {
           Navigator.pushReplacementNamed(context, '/branches');
         } else {
           // Fejlmeddelelse

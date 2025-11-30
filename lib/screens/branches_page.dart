@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:time_register_flutter/wigets/branch_card/branch_card.dart';
+import 'package:time_register_flutter/wigets/branch/branch_card.dart';
 import '../wigets/app_back_button.dart';
-import '../wigets/branch_card/branch_continue_button.dart';
+import '../wigets/branch/branch_continue_button.dart';
 import '../wigets/top_stepper.dart';
 
 class BranchPage extends StatefulWidget {
@@ -91,7 +91,11 @@ class _BranchPageState extends State<BranchPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Row(
                 children: [
-                  Expanded(child: AppBackButton()),
+                  Expanded(
+                    child: AppBackButton(
+                      forceRoute: '/login', // altid gå til denne route
+                    ),
+                  ),
                   const SizedBox(width: 10),
                   BranchContinueButton(selectedBranch: selectedBranch),
                 ],

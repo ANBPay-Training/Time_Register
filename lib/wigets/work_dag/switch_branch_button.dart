@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../screens/branches_page.dart';
-
 class SwitchBranchButton extends StatelessWidget {
   const SwitchBranchButton({super.key});
 
@@ -10,7 +8,7 @@ class SwitchBranchButton extends StatelessWidget {
     return TextButton(
       child: Text("Switch branch"),
       onPressed: () {
-        Navigator.pushReplacementNamed(context, '/branches');
+        Navigator.pushNamed(context, '/branches');
       },
     );
   }

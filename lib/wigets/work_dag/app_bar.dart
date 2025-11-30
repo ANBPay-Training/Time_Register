@@ -46,7 +46,7 @@ class _MyWorkDayAppBarState extends State<MyWorkDayAppBar> {
         children: [
           // Titel til venstre
           Text(
-            " ${widget.userName}'s Work Day - ",
+            " ${widget.userName}'s Work Day",
             style: TextStyle(fontSize: 18),
           ),
           // Dato og tid til højre
