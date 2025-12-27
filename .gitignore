@@ -12,6 +12,7 @@
 .swiftpm/
 migrate_working_dir/
 README_p.md
+
 # IntelliJ related
 *.iml
 *.ipr
