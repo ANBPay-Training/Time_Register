@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:time_register_flutter/wigets/work_dag/stat_column.dart';
 import '../controllers/work_day_controller.dart';
+import '../core/constants/app_constants.dart';
 import '../models/work_day_model.dart';
 import '../wigets/work_dag/app_bar.dart';
 import '../wigets/work_dag/end_break_button.dart';
@@ -30,8 +30,8 @@ class MyWorkDayPage extends StatefulWidget {
 
 class _MyWorkDayPageState extends State<MyWorkDayPage> {
   late WorkDayController c;
-  bool isLoading = true; // Tilføjelse af state for loading
-  String? errorMessage; // Tilføjelse af state for fejl
+  bool isLoading = true;
+  String? errorMessage;
 
   @override
   void initState() {
@@ -70,11 +70,11 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
       appBar: MyWorkDayAppBar(userName: widget.userName),
 
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(AppConstants.spacingLarge),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Start / End buttons
+            // Start / End buttons row
             Row(
               children: [
                 Expanded(
@@ -84,7 +84,7 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
                     onPressed: () => setState(() {}),
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: AppConstants.spacingMedium),
                 Expanded(
                   child: EndWorkButton(
                     userId: widget.userId,
@@ -94,8 +94,10 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            // Break buttons
+
+            const SizedBox(height: AppConstants.spacingLarge),
+
+            // Break buttons row
             Row(
               children: [
                 Expanded(
@@ -105,7 +107,7 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
                     onPressed: () => setState(() {}),
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: AppConstants.spacingMedium),
                 Expanded(
                   child: EndBreakButton(
                     c: c,
@@ -115,13 +117,18 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
-            // Statistics
+
+            const SizedBox(height: AppConstants.spacingXLarge),
+
+            // Statistics title
             Text(
               "Statistics",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: AppConstants.buttonTextStyle.copyWith(fontSize: 22),
             ),
-            SizedBox(height: 10),
+
+            const SizedBox(height: AppConstants.spacingMedium),
+
+            // Stats row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -145,22 +152,29 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
                 ),
               ],
             ),
-            SizedBox(height: 30),
+
+            const SizedBox(height: AppConstants.spacingXLarge),
+
+            // Timeline title
             Text(
               "Timeline",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: AppConstants.buttonTextStyle.copyWith(fontSize: 22),
             ),
+
             Slider(
               value: workedHours.clamp(0, 8),
               min: 0,
               max: 8,
               onChanged: null,
             ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [Text("0h"), Text("4h"), Text("8h")],
             ),
+
             const Spacer(),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

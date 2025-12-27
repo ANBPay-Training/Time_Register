@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../models/user_model.dart';
 import '../../screens/users_page.dart';
+import '../../services/firestore_service.dart';
 
 class BranchContinueButton extends StatelessWidget {
   final String? selectedBranch;
@@ -14,16 +13,13 @@ class BranchContinueButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: selectedBranch == null
             ? null
-            : () {
-                List<AppUser> selectedUsers = [];
-                // Find users, der hører til hver branch
-                if (selectedBranch == "City") {
-                  selectedUsers = users_city;
-                } else if (selectedBranch == "Valby") {
-                  selectedUsers = users_valby;
-                } else if (selectedBranch == "Airport") {
-                  selectedUsers = users_airport;
-                }
+            : () async {
+                final firestoreService = FirestoreService();
+
+                // Get users based on selected branch
+                final selectedUsers = await firestoreService.getUsers(
+                  selectedBranch!.toLowerCase(),
+                );
                 // Navigate to UsersPage
                 Navigator.push(
                   context,

@@ -20,3 +20,4 @@ samples, guidance on mobile development, and a full API reference.
 ## Time register demo 
 
 <img src="https://i.imgur.com/xJeFi4B.gif" width="500">
+

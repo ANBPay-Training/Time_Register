@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "662026099182",
+    "project_id": "time-register-f68a8",
+    "storage_bucket": "time-register-f68a8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662026099182:android:bb4421d5d5a7a79581d6ff",
+        "android_client_info": {
+          "package_name": "com.example.time_register_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZPZg1Wxb7tKY5m2k0P0Ug-tz6ArwAjuM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

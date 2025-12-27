@@ -3,6 +3,8 @@ import 'package:time_register_flutter/wigets/log_in/email_text_field.dart';
 import 'package:time_register_flutter/wigets/log_in/log_in_countinue_button.dart';
 import 'package:time_register_flutter/wigets/top_stepper.dart';
 
+import '../models/user_model.dart';
+import '../services/firestore_service.dart';
 import '../wigets/log_in/labeled_field.dart';
 import '../wigets/log_in/password_text_field.dart';
 
