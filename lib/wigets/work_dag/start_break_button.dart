@@ -15,7 +15,7 @@ class StartBreakButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool started = c.model.breakStart != null;
+    final bool started = c.breakStart != null;
 
     return SizedBox(
       height: 70,
@@ -38,7 +38,7 @@ class StartBreakButton extends StatelessWidget {
         ),
         child: Text(
           started
-              ? "Start break: ${c.formatTime(c.model.breakStart)}"
+              ? "Start break: ${c.formatTime(c.breakStart)}"
               : "Start break",
         ),
       ),

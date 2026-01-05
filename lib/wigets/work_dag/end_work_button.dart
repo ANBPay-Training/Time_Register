@@ -15,7 +15,7 @@ class EndWorkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool ended = c.model.endWork != null;
+    final bool ended = c.workEnd != null;
 
     return SizedBox(
       height: 70,
@@ -36,9 +36,7 @@ class EndWorkButton extends StatelessWidget {
           ),
           textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
-        child: Text(
-          ended ? "Ended: ${c.formatTime(c.model.endWork)}" : "End work",
-        ),
+        child: Text(ended ? "Ended: ${c.formatTime(c.workEnd)}" : "End work"),
       ),
     );
   }

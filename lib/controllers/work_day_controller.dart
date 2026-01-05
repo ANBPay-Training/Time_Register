@@ -1,52 +1,99 @@
 import '../models/work_day_model.dart';
-import '../services/work_day_storage.dart';
+import '../models/work_session.dart';
+import '../models/work_break.dart';
+import '../services/work_day_firestore_service.dart';
 
 class WorkDayController {
-  final WorkDayModel model;
+  final WorkDayFirestoreService _service = WorkDayFirestoreService();
 
-  WorkDayController(this.model);
+  WorkDayModel model = WorkDayModel();
+  bool isLoading = false;
+  String? error;
 
-  // -------- Getters for UI --------
-  bool get canEndWork => model.isWorking;
-  bool get canStartBreak => model.isWorking && !model.onBreak;
-
-  String formatTime(DateTime? dt) =>
-      dt == null ? "--" : "${dt.hour}:${dt.minute.toString().padLeft(2, '0')}";
-
-  // -------- Actions --------
-  void startWork() => model.startWorkNow();
-  void endWork() => model.endWorkNow();
-  void startBreak() => model.startBreak();
-  void endBreak() => model.endBreak();
-
-  // -------- Persistence with error handling --------
+  // ---------- Load today's data ----------
   Future<void> load(String userId) async {
     try {
-      await WorkDayStorage.loadWorkDataStorge(userId, model);
+      isLoading = true;
+      error = null;
+
+      model = await _service.loadWorkDay(userId, DateTime.now());
     } catch (e) {
-      // Re-throw with more context
-      throw Exception('Controller failed to load data for user $userId: $e');
+      error = e.toString();
+    } finally {
+      isLoading = false;
     }
   }
 
+  // ---------- Save current state to Firestore ----------
   Future<void> save(String userId) async {
     try {
-      await WorkDayStorage.saveWorkDataStorge(userId, model);
+      await _service.saveWorkDay(userId, DateTime.now(), model);
     } catch (e) {
-      throw Exception('Controller failed to save data for user $userId: $e');
+      error = e.toString();
     }
   }
 
-  Future<void> clear(String userId) async {
-    try {
-      await WorkDayStorage.clearUserStorage(userId);
-      // reset model
-      model.startWork = null;
-      model.endWork = null;
-      model.breakStart = null;
-      model.totalBreak = Duration.zero;
-    } catch (e) {
-      throw Exception('Controller failed to clear data for user $userId: $e');
-    }
+  // ---------- Work actions ----------
+  bool get canStartWork =>
+      model.sessions.isEmpty || model.sessions.last.end != null;
+  bool get canEndWork =>
+      model.sessions.isNotEmpty && model.sessions.last.end == null;
+
+  void startWork() {
+    if (!canStartWork) return;
+    model.sessions.add(WorkSession(start: DateTime.now()));
+  }
+
+  void endWork() {
+    if (!canEndWork) return;
+    model.sessions.last.end = DateTime.now();
+  }
+
+  // ---------- Break actions ----------
+  bool get onBreak =>
+      model.sessions.isNotEmpty &&
+      model.sessions.last.breaks.isNotEmpty &&
+      model.sessions.last.breaks.last.end == null;
+
+  bool get canStartBreak => onBreak == false && canEndWork;
+  bool get canEndBreak => onBreak;
+
+  // Vi bruger last, fordi den seneste session altid er den aktive,
+  // På den måde behøver vi ikke at loope eller søge i listerne.
+  void startBreak() {
+    if (!canStartBreak) return;
+    model.sessions.last.breaks.add(WorkBreak(start: DateTime.now()));
+  }
+
+  void endBreak() {
+    if (!canEndBreak) return;
+    model.sessions.last.breaks.last.end = DateTime.now();
+  }
+
+  // ---------- Formatting ----------
+  String formatDuration(Duration d) {
+    final h = d.inHours;
+    final m = d.inMinutes % 60;
+    return "$h:${m.toString().padLeft(2, '0')}";
+  }
+
+  String get totalWorkedFormatted => formatDuration(model.totalWorkedToday);
+  String get totalBreakFormatted => formatDuration(model.totalBreakToday);
+
+  String formatTime(DateTime? d) {
+    if (d == null) return "--:--";
+    return "${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}";
+  }
+
+  // ---------- Getters ----------
+  DateTime? get workStart =>
+      model.sessions.isNotEmpty ? model.sessions.first.start : null;
+  DateTime? get workEnd =>
+      model.sessions.isNotEmpty ? model.sessions.last.end : null;
+  DateTime? get breakStart =>
+      onBreak ? model.sessions.last.breaks.last.start : null;
+  double get totalWorkedHours {
+    final total = model.totalWorkedToday;
+    return total.inMinutes / 60.0;
   }
 }

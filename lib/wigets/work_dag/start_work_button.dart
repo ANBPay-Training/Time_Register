@@ -15,7 +15,7 @@ class StartWorkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isStarted = c.model.startWork != null;
+    final bool isStarted = c.workStart != null;
 
     return SizedBox(
       height: 70,
@@ -34,9 +34,7 @@ class StartWorkButton extends StatelessWidget {
           textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         child: Text(
-          isStarted
-              ? "Started: ${c.formatTime(c.model.startWork)}"
-              : "Start work",
+          isStarted ? "Started: ${c.formatTime(c.workStart)}" : "Start work",
         ),
       ),
     );

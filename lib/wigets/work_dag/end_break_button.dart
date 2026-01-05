@@ -18,7 +18,7 @@ class EndBreakButton extends StatelessWidget {
     return SizedBox(
       height: 70,
       child: ElevatedButton(
-        onPressed: c.model.onBreak
+        onPressed: c.onBreak
             ? () async {
                 c.endBreak();
                 await c.save(userId);

@@ -1,51 +1,31 @@
+import 'package:time_register_flutter/models/work_session.dart';
+
 class WorkDayModel {
-  DateTime? startWork;
-  DateTime? endWork;
+  final List<WorkSession> sessions;
 
-  DateTime? breakStart;
-  Duration totalBreak = Duration.zero;
+  WorkDayModel({List<WorkSession>? sessions}) : sessions = sessions ?? [];
+  // looper in i hver session og lægger sammen tiden
+  // ligesom den kode: total += s.totalWorked;
+  Duration get totalWorkedToday =>
+      sessions.fold(Duration.zero, (t, s) => t + s.totalWorked);
 
-  bool get isWorking => startWork != null && endWork == null;
-  bool get onBreak => breakStart != null;
-
-  void startWorkNow() {
-    startWork = DateTime.now();
-    endWork = null;
-    totalBreak = Duration.zero; // 0:00:00
-    breakStart = null;
-  }
-
-  void endWorkNow() {
-    if (breakStart != null) {
-      totalBreak += DateTime.now().difference(breakStart!);
-      breakStart = null;
+  Duration get totalBreakToday {
+    Duration total = Duration.zero;
+    for (final s in sessions) {
+      for (final b in s.breaks) {
+        if (b.end != null) total += b.end!.difference(b.start);
+      }
     }
-    endWork = DateTime.now();
+    return total;
   }
 
-  void startBreak() {
-    breakStart = DateTime.now();
-  }
+  Map<String, dynamic> toJson() => {
+    'sessions': sessions.map((s) => s.toJson()).toList(),
+  };
 
-  void endBreak() {
-    if (breakStart != null) {
-      // Udråbstegnet (!) siger at breakStart har en værdi og ikke er null
-      totalBreak += DateTime.now().difference(breakStart!);
-      breakStart = null;
-    }
-  }
-
-  // Konverterer en Duration til en læsbar streng i formatet timer:minutter
-  String formatDur(Duration d) {
-    // to sifre. format -->  7:05
-    return "${d.inHours}:${(d.inMinutes % 60).toString().padLeft(2, '0')}";
-  }
-
-  String get totalWorkedFormatted {
-    if (startWork == null || endWork == null) return "0:00";
-    final totalWorked = endWork!.difference(startWork!) - totalBreak;
-    return formatDur(totalWorked);
-  }
-
-  String get totalBreakFormatted => formatDur(totalBreak);
+  factory WorkDayModel.fromJson(Map<String, dynamic> json) => WorkDayModel(
+    sessions: (json['sessions'] as List<dynamic>? ?? [])
+        .map((s) => WorkSession.fromJson(s))
+        .toList(),
+  );
 }

@@ -36,7 +36,7 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
   @override
   void initState() {
     super.initState();
-    c = WorkDayController(WorkDayModel());
+    c = WorkDayController();
     _loadData();
   }
 
@@ -48,9 +48,7 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
 
     try {
       await c.load(widget.userId);
-      if (mounted) {
-        setState(() => isLoading = false);
-      }
+      if (mounted) setState(() => isLoading = false);
     } catch (e) {
       if (mounted) {
         setState(() {
@@ -63,18 +61,16 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
 
   @override
   Widget build(BuildContext context) {
-    final workedHours =
-        double.tryParse(c.model.totalWorkedFormatted.split(":")[0]) ?? 0;
+    final workedHours = c.totalWorkedHours.clamp(0, 8);
 
     return Scaffold(
       appBar: MyWorkDayAppBar(userName: widget.userName),
-
       body: Padding(
         padding: const EdgeInsets.all(AppConstants.spacingLarge),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Start / End buttons row
+            // Start / End Work buttons
             Row(
               children: [
                 Expanded(
@@ -94,10 +90,9 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
                 ),
               ],
             ),
-
             const SizedBox(height: AppConstants.spacingLarge),
 
-            // Break buttons row
+            // Start / End Break buttons
             Row(
               children: [
                 Expanded(
@@ -117,64 +112,57 @@ class _MyWorkDayPageState extends State<MyWorkDayPage> {
                 ),
               ],
             ),
-
             const SizedBox(height: AppConstants.spacingXLarge),
 
-            // Statistics title
+            // Statistics
             Text(
               "Statistics",
               style: AppConstants.buttonTextStyle.copyWith(fontSize: 22),
             ),
-
             const SizedBox(height: AppConstants.spacingMedium),
-
-            // Stats row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 StatBox(
                   child: StatColumn(
                     title: 'Started',
-                    value: c.formatTime(c.model.startWork),
+                    value: c.formatTime(c.workStart),
                   ),
                 ),
                 StatBox(
                   child: StatColumn(
                     title: 'Total break',
-                    value: c.model.totalBreakFormatted,
+                    value: c.totalBreakFormatted,
                   ),
                 ),
                 StatBox(
                   child: StatColumn(
                     title: 'Worked',
-                    value: c.model.totalWorkedFormatted,
+                    value: c.totalWorkedFormatted,
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: AppConstants.spacingXLarge),
 
-            // Timeline title
+            // Timeline
             Text(
               "Timeline",
               style: AppConstants.buttonTextStyle.copyWith(fontSize: 22),
             ),
-
             Slider(
-              value: workedHours.clamp(0, 8),
+              value: workedHours.clamp(0, 8).toDouble(),
               min: 0,
               max: 8,
               onChanged: null,
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [Text("0h"), Text("4h"), Text("8h")],
             ),
-
             const Spacer(),
 
+            // Switch User / Branch buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
